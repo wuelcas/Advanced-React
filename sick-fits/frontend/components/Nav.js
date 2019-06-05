@@ -2,9 +2,10 @@ import React, { Fragment } from "react";
 import Link from "next/link";
 import NavStyles from "./styles/NavStyles";
 import User from "./User";
+import Signout from "./Signout";
 
 export default function Nav() {
-  return (    
+  return (
     <User>
       {({ data: { me } }) => (
         <NavStyles>
@@ -22,6 +23,7 @@ export default function Nav() {
               <Link href="/me">
                 <a>Account</a>
               </Link>
+              <Signout />
             </Fragment>
           )}
           {!me && (
