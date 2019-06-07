@@ -16,6 +16,20 @@ server.express.use((req, res, next) => {
 
   next();
 });
+server.express.use((req, res, next) => {
+  if (!req.userId) {
+    return next();
+  }
+
+  const user = db.query.users({
+    where: {
+      userId: req.userId
+    }
+  }, '{ id, permissions, email, name }');
+
+  next();
+
+})
 
 server.start({
   cors: {
