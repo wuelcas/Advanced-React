@@ -32,7 +32,7 @@ export default class DeleteItem extends Component {
         {(deleteItem, { error }) => (
           <button onClick={() => {
             if (confirm("Are you sure you wnat to delete this item?")) {
-              deleteItem();
+              deleteItem().catch(err => alert(err.message));
             }
           }}>
             {this.props.children}
