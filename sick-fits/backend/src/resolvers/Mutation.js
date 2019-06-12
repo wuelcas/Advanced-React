@@ -200,31 +200,70 @@ const Mutations = {
       where: {
         user: { id: userId },
         item: { id: args.id },
-      }
+      },
     });
 
     if (existingCartItem) {
       console.log("This item is already in their cart");
-      return ctx.db.mutation.updateCartItem({
-        where: { id: existingCartItem.id },
-        data: { quantity: existingCartItem.quantity + 1 },
-      }, info);
+      return ctx.db.mutation.updateCartItem(
+        {
+          where: { id: existingCartItem.id },
+          data: { quantity: existingCartItem.quantity + 1 },
+        },
+        info,
+      );
     }
 
-    return ctx.db.mutation.createCartItem({
-      data: {
-        user: {
-          connect: {
-            id: userId,
+    return ctx.db.mutation.createCartItem(
+      {
+        data: {
+          user: {
+            connect: {
+              id: userId,
+            },
           },
-        },
-        item: {
-          connect: {
-            id: args.id,
+          item: {
+            connect: {
+              id: args.id,
+            },
           },
         },
       },
-    }, info);
+      info,
+    );
+  },
+  async removeFromCart(parent, args, ctx, info) {
+    const userId = ctx.request.userId;
+
+    if (!userId) {
+      throw new Error("You must be logged in to do that!");
+    }
+
+    const cartItem = await ctx.db.query.cartItem(
+      {
+        where: {
+          id: args.id,
+        },
+      },
+      `{ id, user { id } }`,
+    );
+
+    if (!cartItem) {
+      throw new Error("That item does not exists");
+    }
+
+    if (cartItem.user.id !== userId) {
+      throw new Error("You can't do that");
+    }
+
+    return ctx.db.mutation.deleteCartItem(
+      {
+        where: {
+          id: args.id,
+        },
+      },
+      info,
+    );
   },
 };
 

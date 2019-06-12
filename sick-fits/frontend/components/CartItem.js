@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import formatMoney from "../lib/formatMoney";
+import RemoveFromCart from "./RemoveFromCart";
 
 const CartItemStyles = styled.li`
   padding: 1rem 0;
@@ -11,7 +12,8 @@ const CartItemStyles = styled.li`
   img {
     margin-right: 10px;
   }
-  h3, p {
+  h3,
+  p {
     margin: 0px;
   }
 `;
@@ -29,6 +31,7 @@ const CartItem = ({ cartItem }) => (
         </em>
       </p>
     </div>
+    <RemoveFromCart id={cartItem.id} />
   </CartItemStyles>
 );
 
