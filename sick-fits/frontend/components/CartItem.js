@@ -18,7 +18,14 @@ const CartItemStyles = styled.li`
   }
 `;
 
-const CartItem = ({ cartItem }) => (
+const CartItem = ({ cartItem }) => { 
+  if (!cartItem.item) return (
+    <CartItemStyles>
+      The item has been deleted
+      <RemoveFromCart id={cartItem.id} />
+    </CartItemStyles>
+  );
+  return (
   <CartItemStyles>
     <img width="100" src={cartItem.item.image} alt={cartItem.item.title} />
     <div className="cart-item-details">
@@ -33,6 +40,6 @@ const CartItem = ({ cartItem }) => (
     </div>
     <RemoveFromCart id={cartItem.id} />
   </CartItemStyles>
-);
+)};
 
 export default CartItem;
