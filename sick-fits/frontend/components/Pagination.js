@@ -6,7 +6,7 @@ import { perPage } from "../config";
 import Head from 'next/head';
 import Link from 'next/link';
 
-const PAGINATION_QUERY = gql`
+export const PAGINATION_QUERY = gql`
   query PAGINATION_QUERY {
     itemsConnection {
       aggregate {
@@ -35,13 +35,13 @@ export default function Pagination(props) {
                 query: { page: page - 1 }
               }}><a className="prev" aria-disabled={page <= 1} >Prev</a></Link>
               <p>
-                Page {page} of {pages}
+                Page {page} of <span className="totalPages">{pages}</span>
               </p>
               <p>{count} Items Total</p>
               <Link prefetch href={{
                 pathname: 'items',
                 query: { page: page + 1 }
-              }}><a aria-disabled={page >= pages} className="prev">Next</a></Link>
+              }}><a aria-disabled={page >= pages} className="next">Next</a></Link>
             </PaginationStyles>
           );
         }}
